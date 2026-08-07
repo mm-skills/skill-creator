@@ -1,0 +1,8 @@
+{
+  "upstream": "https://github.com/anthropics/skills",
+  "path": "skills/skill-creator",
+  "forkedFromCommit": "f17010c9bb483898c1d9c9f42dde2b3a98889434",
+  "forkedAt": "2026-08-07T18:35:26Z",
+  "lastSyncedCommit": "46a2ba7aeb6fefad890e8816ab8bdbd733ffb106",
+  "lastSyncedAt": "2026-08-07T18:35:26Z"
+}
