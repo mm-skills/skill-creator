@@ -108,6 +108,33 @@ cloud-deploy/
 ```
 Claude reads only the relevant reference file.
 
+**Tiered grounding for external schemas**: When a skill covers a domain with a live
+external schema (library APIs, XML formats, vendor docs), structure knowledge in three tiers
+so the agent always has a clear resolution path:
+
+1. **Inline in references/** — the core props / most-used attributes, available instantly with
+   no network needed. Covers ~80% of real usage. Keep each entry concise.
+2. **MCP or live query** — include a ready-made query (e.g. an MCP tool call or a `curl` of
+   a raw schema file) at the end of each inline entry, for the long tail of enumerated values
+   and edge-case props. Only fetch when the inline entry is silent.
+3. **Upstream raw files as offline fallback** — document exactly where to find the authoritative
+   source (e.g. a GitHub path or a `git clone` command) so the agent can self-rescue without
+   network-dependent tooling.
+
+Label these tiers explicitly in your references so the agent knows which to try first.
+Never make the agent guess; a shorter correct answer always beats a longer invented one.
+
+**Co-locate agent instructions with generated outputs**: When a skill *generates a project,
+workspace, or repo*, embed agent instructions inside the output itself — not just in the skill.
+A generated `AGENTS.md` (or equivalent) placed at the root of the output means any agent that
+subsequently opens that workspace is immediately grounded in its conventions, without needing
+the skill to be present. This is especially valuable for:
+- XML/JSON projects with non-obvious schemas (embed a schema cheat-sheet)
+- Codebases with unusual conventions (embed the key rules)
+- Multi-file outputs that will be edited iteratively by agents over time
+
+Think of it as the skill leaving behind a "care label" for the next agent to read.
+
 #### Principle of Lack of Surprise
 
 This goes without saying, but skills must not contain malware, exploit code, or any content that could compromise system security. A skill's contents should not surprise the user in their intent if described. Don't go along with requests to create misleading skills or skills designed to facilitate unauthorized access, data exfiltration, or other malicious activities. Things like a "roleplay as an XYZ" are OK though.
