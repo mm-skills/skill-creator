@@ -200,6 +200,12 @@ Wall clock timing for a run. Located at `<run-dir>/timing.json`.
 
 **How to capture:** When a subagent task completes, the task notification includes `total_tokens` and `duration_ms`. Save these immediately — they are not persisted anywhere else and cannot be recovered after the fact.
 
+> **Harness note:** The notification event that delivers `total_tokens`/`duration_ms` varies
+> by harness. In Claude Code it arrives as a task completion message; in Antigravity (AGY)
+> it arrives as an inbox message when the subagent completes. The data shape is the same —
+> only the mechanism for receiving and processing it differs. See your harness file.
+
+
 ```json
 {
   "total_tokens": 84852,
